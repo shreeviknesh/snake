@@ -29,11 +29,13 @@ class Snake {
       let pos = this.body[i];
       var dist = distance(this.x, this.y, pos.x, pos.y);
       if (dist < 1) {
-        console.log('Game over.');
-        // this.total = 1;
-        // this.body = [];
-        clearInterval(game);
         alert(`Game over. Your score: ${(this.body.length - 1) * 10}`)
+        this.total = 1;
+        this.body = [];
+        this.x = 0;
+        this.y = 0;
+        this.dx = 1;
+        this.dy = 0;
       }
     }
   }
@@ -68,8 +70,10 @@ class Snake {
   }
 
   show() {
+    context.fillStyle = 'rgb(243, 42, 100)';
     for (var i = 0; i < this.body.length; i++) {
       context.fillRect(this.body[i].x, this.body[i].y, scl, scl);
+      context.strokeRect(this.body[i].x, this.body[i].y, scl, scl);
     }
   }
 }

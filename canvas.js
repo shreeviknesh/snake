@@ -2,6 +2,7 @@ let canvas = document.querySelector('canvas');
 canvas.width = 500;
 canvas.height = 500;
 canvas.style.border = 'solid 1px black';
+canvas.style.background = '#333';
 let context = canvas.getContext('2d');
 
 // window.addEventListener('resize', () => {
@@ -52,7 +53,7 @@ let animate = () => {
   snake.show();
 
   context.save();
-  context.fillStyle = 'red';
+  context.fillStyle = 'cyan';
   context.fillRect(food.x, food.y, scl, scl);
   context.restore();
   //console.log(snake.tail.length);
