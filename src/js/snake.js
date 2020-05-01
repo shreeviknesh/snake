@@ -70,7 +70,8 @@ class Snake {
   }
 
   show() {
-    context.fillStyle = 'rgb(243, 42, 100)';
+    context.fillStyle = '#3D9970';
+    context.strokeStyle = 'rgb(0, 255, 0)';
     for (var i = 0; i < this.body.length; i++) {
       context.fillRect(this.body[i].x, this.body[i].y, scl, scl);
       context.strokeRect(this.body[i].x, this.body[i].y, scl, scl);

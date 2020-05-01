@@ -1,14 +1,13 @@
 let canvas = document.querySelector('canvas');
-canvas.width = 500;
-canvas.height = 500;
-canvas.style.border = 'solid 1px black';
-canvas.style.background = '#333';
 let context = canvas.getContext('2d');
 
-// window.addEventListener('resize', () => {
-//   canvas.width = window.innerWidth;
-//   canvas.height = window.innerHeight;
-// });
+let min = Math.min(window.innerWidth * 0.8, window.innerHeight * 0.8);
+canvas.width = canvas.height = min;
+
+window.addEventListener('resize', () => {
+  let min = Math.min(window.innerWidth * 0.8, window.innerHeight * 0.75);
+  canvas.width = canvas.height = min;
+});
 
 document.addEventListener('keydown', (event) => {
   if (event.keyCode == 87 || event.keyCode == 38) {
@@ -53,8 +52,10 @@ let animate = () => {
   snake.show();
 
   context.save();
-  context.fillStyle = 'cyan';
+  context.fillStyle = "rgba(10, 10, 10, 0.4)";
   context.fillRect(food.x, food.y, scl, scl);
+  context.strokeStyle = "#F012BE";
+  context.strokeRect(food.x, food.y, scl, scl);
   context.restore();
   //console.log(snake.tail.length);
 }
