@@ -32,7 +32,5 @@ canvas {
     bottom: 0;
     left: 0;
     right: 0;
-    margin:auto;
-    background: rgba(255, 0, 0, 0.1);
-    border: 0.5em solid black;
+    margin: auto;
 }

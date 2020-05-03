@@ -1,80 +1,74 @@
 class Snake {
   constructor() {
-    this.x = 0;
-    this.y = 0;
-    this.dx = 1;
-    this.dy = 0;
-    this.total = 1;
     this.body = [];
+    this.body[0] = createVector(floor(w / 2), floor(h / 2));
+    this.xdir = 0;
+    this.ydir = 0;
+    this.total = 0;
   }
 
-  eat(pos) {
-    let dist = distance(this.x, this.y, pos.x, pos.y);
-    if (dist < 1) {
-      this.total++;
-      console.log("grown");
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  dir(dx, dy) {
-    this.dx = dx;
-    this.dy = dy;
-  }
-
-  death() {
-    for (let i = 0; i < this.body.length; i++) {
-      let pos = this.body[i];
-      var dist = distance(this.x, this.y, pos.x, pos.y);
-      if (dist < 1) {
-        alert(`Game over. Your score: ${(this.body.length - 1) * 10}`)
-        this.total = 1;
-        this.body = [];
-        this.x = 0;
-        this.y = 0;
-        this.dx = 1;
-        this.dy = 0;
-      }
-    }
+  changeDir(x, y) {
+    this.xdir = x;
+    this.ydir = y;
   }
 
   update() {
+    let head = this.body[this.body.length - 1].copy();
+    this.body.shift();
+    head.x += this.xdir;
+    head.y += this.ydir;
+    this.body.push(head);
+  }
+
+  grow() {
+    let head = this.body[this.body.length - 1].copy();
+    this.body.push(head);
+  }
+
+  gameOver() {
+    let head = this.body[this.body.length - 1];
+
+    if (head.x > w - 1 || head.x < 0 || head.y > h - 1 || head.y < 0) {
+      return true;
+    }
+
     for (let i = 0; i < this.body.length - 1; i++) {
-      this.body[i] = this.body[i + 1];
-    }
-    if (this.total >= 1) {
-      this.body[this.total - 1] = {
-        x: this.x,
-        y: this.y
-      };
+      let part = this.body[i];
+      if (part.x == head.x && part.y == head.y) {
+        return true;
+      }
     }
 
-    this.x = this.x + this.dx * scl;
-    this.y = this.y + this.dy * scl;
+    return false;
+  }
 
-    // this.x = Math.min(Math.max(this.x, 0), canvas.width - scl);
-    // this.y = Math.min(Math.max(this.y, 0), canvas.height - scl);
+  eat(pos) {
+    let head = this.body[this.body.length - 1];
+    if (head.x == pos.x && head.y == pos.y) {
+      this.grow();
 
-    if (this.x > canvas.width - scl) {
-      this.x = 0;
-    } else if (this.x < 0) {
-      this.x = canvas.width - scl;
+      // Every 1000 points grants 25 extra points per food eaten
+      score += (int(score / 1000)) * 25 + 100;
+
+      // Every 10000 points grants 100 extra points per food eaten
+      score += (int(score / 10000)) * 100;
+
+      if (score % 800 == 0) {
+        fps += 1;
+      }
+
+      return true;
     }
-    if (this.y > canvas.height - scl) {
-      this.y = 0;
-    } else if (this.y < 0) {
-      this.y = canvas.height - scl;
-    }
+
+    return false;
   }
 
   show() {
-    context.fillStyle = '#3D9970';
-    context.strokeStyle = 'rgb(0, 255, 0)';
-    for (var i = 0; i < this.body.length; i++) {
-      context.fillRect(this.body[i].x, this.body[i].y, scl, scl);
-      context.strokeRect(this.body[i].x, this.body[i].y, scl, scl);
+    for (let i = 0; i < this.body.length; i++) {
+      fill(snakeFill);
+      stroke(0);
+      strokeWeight(0.005);
+      rect(this.body[i].x, this.body[i].y, 1, 1);
     }
   }
 }
