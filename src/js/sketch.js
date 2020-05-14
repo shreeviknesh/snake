@@ -1,6 +1,9 @@
-const scaleRatio = 20;
-const widthRatio = 0.9;
-const heightRatio = 0.8;
+const width = 600;
+const height = 600;
+const scaleFactor = 20;
+const w = width / scaleFactor;
+const h = height / scaleFactor;
+let fps = 10;
 
 const snakeFill = "#01FF70";
 const foodFill = "rgba(255, 65, 54, 0.75)";
@@ -9,32 +12,19 @@ const gameOverColor = "rgba(255, 0, 0, 0.1)";
 
 let snake;
 let food;
-let w, h;
 let score = 0;
 let gameover = false;
-let fps = 10;
-
-let getSide = () => {
-  return min(window.innerWidth * widthRatio - ((window.innerWidth * widthRatio) % scaleRatio),
-    window.innerHeight * heightRatio);
-};
 
 function setup() {
-  fps = 10;
-  createCanvas(getSide(), getSide());
-  document.body.style.backgroundColor = "";
-
-  w = floor(width / scaleRatio);
-  h = floor(height / scaleRatio);
+  createCanvas(width, height);
   score = 0;
-
   snake = new Snake();
   spawnFood();
+  frameRate(fps);
 }
 
 function draw() {
-  frameRate(fps);
-  scale(scaleRatio);
+  scale(scaleFactor);
   clear();
   background(gameColor);
 
@@ -61,10 +51,6 @@ function spawnFood() {
   food = createVector(floor(random(w)), floor(random(h)));
 }
 
-function windowResized() {
-  resizeCanvas(getSide(), getSide());
-}
-
 function keyPressed() {
   if (keyCode === LEFT_ARROW || keyCode == 65) {
     snake.changeDir(-1, 0);
@@ -74,7 +60,7 @@ function keyPressed() {
     snake.changeDir(0, 1);
   } else if (keyCode === UP_ARROW || keyCode == 87) {
     snake.changeDir(0, -1);
-  } else if (key == ' ' && gameover) {
+  } else if (key == " " && gameover) {
     setup();
     loop();
   }

@@ -48,10 +48,10 @@ class Snake {
       this.grow();
 
       // Every 1000 points grants 25 extra points per food eaten
-      score += (int(score / 1000)) * 25 + 100;
+      score += int(score / 1000) * 25 + 100;
 
       // Every 10000 points grants 100 extra points per food eaten
-      score += (int(score / 10000)) * 100;
+      score += int(score / 10000) * 100;
 
       if (score % 800 == 0) {
         fps += 1;
